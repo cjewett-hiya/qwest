@@ -182,7 +182,8 @@ module.exports = function() {
 				}
 				// Run 'before' callback
 				if(before) {
-					before(xhr);
+          // expose method, url, headers, body. It is not easy to retrieve this data without messy wrappering.
+					before(xhr, method, url, headers, data);
 				}
 				// Send request
 				if(xdr) {
