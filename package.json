@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "jquery-param": "^0.1.2",
-    "pinkyswear": "^2.2.2"
+    "pinkyswear": "^2.2.2",
+    "xhr2": "^0.1.4"
   }
 }

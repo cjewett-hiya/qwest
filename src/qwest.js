@@ -2,7 +2,8 @@
 
 module.exports = function() {
 
-	var global = typeof window != 'undefined' ? window : self,
+	var isNode = typeof window === 'undefined',
+    global = isNode ? this : window,
 		pinkyswear = require('pinkyswear'),
 		jparam = require('jquery-param'),
 		defaultOptions = {},
@@ -15,13 +16,20 @@ module.exports = function() {
 		requests = 0,
 		request_stack = [],
 		// Get XMLHttpRequest object
-		getXHR = global.XMLHttpRequest? function(){
-			return new global.XMLHttpRequest();
-		}: function(){
-			return new ActiveXObject('Microsoft.XMLHTTP');
-		},
-		// Guess XHR version
-		xhr2 = (getXHR().responseType===''),
+    getXHR = (function() {
+      if (isNode) {
+        var xhr2 = require('xhr2');
+        return function() { return new xhr2(); }
+      } else {
+        return global.XMLHttpRequest? function(){
+          return new global.XMLHttpRequest();
+        }: function(){
+          return new ActiveXObject('Microsoft.XMLHTTP');
+        }
+      };
+    }()),
+    // Guess XHR version
+    xhr2 = (getXHR().responseType===''),
 
 	// Core function
 	qwest = function(method, url, data, options, before) {
