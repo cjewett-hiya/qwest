@@ -1,4 +1,4 @@
-qwest 4.4.5
+qwest 4.5.0-hiya
 ============
 
 Qwest is a simple ajax library based on `promises` and that supports `XmlHttpRequest2` special data like `ArrayBuffer`, `Blob` and `FormData`.
@@ -205,7 +205,7 @@ Set options to the XHR object
 If you want to apply some manual options to the `XHR` object, you can use the `before` option
 
 ```js
-qwest.get('example.com', null, null, function(xhr) {
+qwest.get('example.com', null, null, function(xhr, method, url, headers, data) {
 		xhr.upload.onprogress = function(e) {
 			// Upload in progress
 		};
@@ -214,6 +214,10 @@ qwest.get('example.com', null, null, function(xhr) {
 		// Blah blah blah
 	 });
 ```
+
+In addition to exposing the `xhr` object, the additional parameters `method`, `url`, `headers`, and `data` are provided
+as they are not easily re-extracted from the XHR object. These parameters should be treated as read-only as they have
+already been applied to the `xhr` and modifying them will not affect the request.
 
 Handling fallbacks
 ------------------
